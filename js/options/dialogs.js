@@ -29,7 +29,7 @@ function openNewContextDialog() {
 				}
 
 				var contextFaIcon = $('#context-fa-icon').val();
-				if(contextName.length == 0) {
+				if(contextFaIcon.length == 0) {
 					var selectedIcon = $('#context-icons li.ui-selected img');
 				}else{
 					var selectedIcon = 'icons/fa/' + contextFaIcon + '.svg';
@@ -137,7 +137,7 @@ function openEditContextDialog(context) {
 				}
 
 				var contextFaIcon = $('#context-fa-icon').val();
-				if(contextName.length == 0) {
+				if(contextFaIcon.length == 0) {
 					var selectedIcon = $('#context-icons li.ui-selected img');
 				}else{
 					var selectedIcon = 'icons/fa/' + contextFaIcon + '.svg';
