@@ -354,7 +354,7 @@ $(document).ready(function () {
 
 	$('button, input[type=submit], input[type=button]').button();
 
-	$('.removeBtn').live('click', function () {
+	$(document).on('click','.removeBtn', function () {
 		$(this).closest('li').effect('slide', {mode: 'hide'}, 'normal', function () {
 			$(this).remove();
 			markDirty();
@@ -365,7 +365,7 @@ $(document).ready(function () {
 		showWelcomeScreen();
 	});
 
-	$('.contextDelete').live('click', function () {
+	$(document).on('click','.contextDelete', function () {
 		var context = $(this).closest('.context');
 		var buttons = {};
 		buttons[chrome.i18n.getMessage("delete")] = function () {
@@ -391,7 +391,7 @@ $(document).ready(function () {
 		return false;
 	});
 
-	$('.contextDuplicate').live('click', function () {
+	$(document).on('click','.contextDuplicate', function () {
 		var original = $(this).closest('.context');
 		var contextsContainer = $('.contextExtensions');
 
@@ -429,7 +429,7 @@ $(document).ready(function () {
 		return false;
 	});
 
-	$('.contextEdit').live('click', function () {
+	$(document).on('click','.contextEdit', function () {
 		openEditContextDialog($(this).closest('.context'));
 		return false;
 	});
