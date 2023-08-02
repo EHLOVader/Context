@@ -196,6 +196,15 @@ a:visited {
 #new-context-form {
 }
 
+.icons-selector .contextIcon {
+	max-width: 40px;
+	max-height: 40px;
+}
+
+.selector-popup-wrap.icons-selector {
+	z-index: 9000 !important;yarn
+}
+
 	#new-context-form .dialog-label {
 		font-weight: bold;
 		display: block;
@@ -349,6 +358,14 @@ a:visited {
 		margin-right: 0;
 	}
 
+	#contexts li.context img.contextIcon {
+		max-width: 40px;
+		max-height: 40px;
+	}
+
+
+
+
 	#contexts li.context span.contextTitle {
 		font-family: 'Andika';
 		font-size: 18px;
@@ -380,6 +397,7 @@ a:visited {
 
 	.contextGrip {
 		cursor: move;
+		display: flex;
 	}
 
 	ul.contextExtensions{
