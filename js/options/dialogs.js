@@ -157,11 +157,11 @@ function openEditContextDialog(context) {
 
 				if ( isValid ) {
 					context.find('.contextExtensions').data('contextName', contextName);
-					context.find('.contextExtensions').data('contextImg', contextFaIcon);
+					context.find('.contextExtensions').data('contextImg', selectedIcon);
 					context.find('.contextExtensions').data('contextIcon', showIcon);
 
 					context.find('.contextTitle').text(contextName);
-					context.find('.contextIcon').attr('src', contextFaIcon);
+					context.find('.contextIcon').attr('src', 'icons/fa/' + contextFaIcon + '.svg');
 
 					context.effect('highlight', {}, 'slow');
 
