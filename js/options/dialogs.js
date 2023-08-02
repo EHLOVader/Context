@@ -5,6 +5,8 @@ function openNewContextDialog() {
 				clearDialogErrors($(this));
 				$(this).find('input, ul').removeClass("ui-state-error");
 
+
+
 				var isValid = true;
 
 				var contextName = $('#context-name').val();
@@ -13,6 +15,7 @@ function openNewContextDialog() {
 					isValid = false;
 					addDialogError($(this), chrome.i18n.getMessage("name_field_is_required"));
 				}
+
 
 				var contexts = $('.contextExtensions');
 				for(var i=0; i<contexts.length; i++) {
@@ -25,7 +28,13 @@ function openNewContextDialog() {
 					}
 				}
 
-				var selectedIcon = $('#context-icons li.ui-selected img');
+				var contextFaIcon = $('#context-fa-icon').val();
+				if(contextName.length == 0) {
+					var selectedIcon = $('#context-icons li.ui-selected img');
+				}else{
+					var selectedIcon = 'icons/fa/' + contextFaIcon + '.svg';
+				}
+
 				if(selectedIcon.length == 0) {
 					$('#context-icons').addClass("ui-state-error");
 					isValid = false;
@@ -34,8 +43,12 @@ function openNewContextDialog() {
 				
 				var showIcon = $("#showExtensionIcon").is(':checked') ? 'show_extension' : 'show_context';
 
+				if(contextFaIcon.length == 0) {
+					selectedIcon = selectedIcon.attr('src');
+				}
+
 				if ( isValid ) {
-					var context = newContext(contextName, selectedIcon.attr('src'), showIcon);
+					var context = newContext(contextName, selectedIcon, showIcon);
 					$('#contexts').append(context);
 					context.effect('highlight', {}, 'slow');
 					$( this ).dialog( "close" );
@@ -47,6 +60,36 @@ function openNewContextDialog() {
 		$( this ).dialog( "close" );
 	};
 
+
+
+	var faicons = $('#context-fa-icon').fontIconPicker({
+		theme: 'flip-grey',
+		iconGenerator: function( item ) {
+			return '<img src="icons/fa/'+item+'.svg" alt="'+item+'" class="contextIcon"/>';
+		},
+		useAttribute: true,
+		attributeName: 'data-icon',
+		appendTo: $('body')
+	});
+
+	$.ajax( {
+		url: 'icons/fa/icons.json',
+		type: 'GET',
+		dataType: 'json'
+	} )
+	.done( function( response ) {
+		console.log( response );
+		setTimeout( function() {
+			// Reset icons
+			faicons.setIcons(response);
+
+		});
+	} )
+	.fail( function() {
+		console.log( "error" );
+	} );
+
+
 	$( '#new-context-form' )
 		.dialog( "option", "title", chrome.i18n.getMessage("create_new_context") )
 		.dialog( "option", "buttons", buttons)
@@ -57,10 +100,15 @@ function openNewContextDialog() {
 function openEditContextDialog(context) {
 	var contextName = context.find('.contextExtensions').data('contextName');
 	var contextImg = context.find('.contextExtensions').data('contextImg');
+	if(contextImg.indexOf('icons/fa/') == 0) {
+		contextImg = contextImg.substring(9, contextImg.length);
+		contextImg = contextImg.substring(0, contextImg.length-4);
+	}
 	var contextIcon = context.find('.contextExtensions').data('contextIcon') || 'show_context';
 
 	$( '#new-context-form' ).find('input[name=context-name]').val(contextName);
 	$( '#new-context-form' ).find('img[src="'+contextImg+'"]').parent().addClass('ui-selected');
+	$( '#new-context-form' ).find('input[name=context-fa-icon]').val(contextImg);
 	$( '#new-context-form' ).find('#showExtensionIcon').prop('checked', (contextIcon === 'show_extension'));
 
 	var buttons = {};
@@ -88,22 +136,32 @@ function openEditContextDialog(context) {
 					}
 				}
 
-				var selectedIcon = $('#context-icons li.ui-selected img');
+				var contextFaIcon = $('#context-fa-icon').val();
+				if(contextName.length == 0) {
+					var selectedIcon = $('#context-icons li.ui-selected img');
+				}else{
+					var selectedIcon = 'icons/fa/' + contextFaIcon + '.svg';
+				}
+
 				if(selectedIcon.length == 0) {
 					$('#context-icons').addClass("ui-state-error");
 					isValid = false;
 					addDialogError($(this), chrome.i18n.getMessage("pick_an_icon"));
 				}
-				
+
 				var showIcon = $("#showExtensionIcon").is(':checked') ? 'show_extension' : 'show_context';
+
+				if(contextFaIcon.length == 0) {
+					selectedIcon = selectedIcon.attr('src');
+				}
 
 				if ( isValid ) {
 					context.find('.contextExtensions').data('contextName', contextName);
-					context.find('.contextExtensions').data('contextImg', selectedIcon.attr('src'));
+					context.find('.contextExtensions').data('contextImg', contextFaIcon);
 					context.find('.contextExtensions').data('contextIcon', showIcon);
 
 					context.find('.contextTitle').text(contextName);
-					context.find('.contextIcon').attr('src', selectedIcon.attr('src'));
+					context.find('.contextIcon').attr('src', contextFaIcon);
 
 					context.effect('highlight', {}, 'slow');
 
@@ -115,6 +173,34 @@ function openEditContextDialog(context) {
 	buttons[chrome.i18n.getMessage("cancel")] = function() {
 			$( this ).dialog( "close" );
 		};
+
+
+	var faicons = $('#context-fa-icon').fontIconPicker({
+		theme: 'flip-grey',
+		iconGenerator: function( item ) {
+			return '<img src="icons/fa/'+item+'.svg" alt="'+item+'" class="contextIcon"/>';
+		},
+		useAttribute: true,
+		attributeName: 'data-icon',
+		appendTo: $('body')
+	});
+
+	$.ajax( {
+		url: 'icons/fa/icons.json',
+		type: 'GET',
+		dataType: 'json'
+	} )
+		.done( function( response ) {
+			console.log( response );
+			setTimeout( function() {
+				// Reset icons
+				faicons.setIcons(response);
+
+			});
+		} )
+		.fail( function() {
+			console.log( "error" );
+		} );
 
 	$( '#new-context-form' )
 		.dialog( "option", {
