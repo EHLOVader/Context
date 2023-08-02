@@ -197,15 +197,31 @@ a:visited {
 }
 
 .icons-selector .contextIcon {
-	max-width: 40px;
-	max-height: 40px;
+	max-width: 30px;
+	max-height: 30px;
 }
 
 .selector-popup-wrap.icons-selector {
 	z-index: 9000 !important;yarn
 }
 
-	#new-context-form .dialog-label {
+.icons-selector {
+	background: #F7F7F7;
+	padding: 5px;
+	border-radius: 0.5rem;
+}
+
+.icons-selector .selected-icon i,
+.icons-selector .selector-button i {
+	font-size: 30px;
+}
+
+.icons-selector .selector {
+	width: 100px;
+	height: 30px;
+}
+
+#new-context-form .dialog-label {
 		font-weight: bold;
 		display: block;
 		margin-top: 15px;
@@ -359,8 +375,8 @@ a:visited {
 	}
 
 	#contexts li.context img.contextIcon {
-		max-width: 40px;
-		max-height: 40px;
+		max-width: 30px;
+		max-height: 30px;
 	}
 
 
